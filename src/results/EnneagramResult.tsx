@@ -58,7 +58,7 @@ export default function EnneagramResult({ result }: { result: unknown }) {
               <XAxis dataKey="name" tick={{ fontSize: 12 }} />
               <YAxis hide domain={[0, 100]} />
               <Tooltip
-                formatter={(value: number, _: string, props: any) => [`${value}점`, props.payload.fullName]}
+                formatter={((value: any, _: any, props: any) => [`${value}점`, props.payload.fullName]) as any}
                 contentStyle={{ borderRadius: 12, border: 'none', boxShadow: 'var(--cc-shadow)' }}
               />
               <Bar dataKey="score" radius={[8, 8, 0, 0]} animationDuration={1200}>

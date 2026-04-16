@@ -169,7 +169,7 @@ export default function Big5Result({ result }: { result: unknown }) {
   // 두드러진 특성 (67 이상 또는 33 이하)
   const prominent = displayData.filter(d => d.displayPct >= 67 || d.displayPct <= 33);
   // 없으면 가장 높은/낮은 것
-  const fallback = prominent.length === 0;
+  // prominent.length === 0 handled by highlightTraits fallback below
   const sorted = [...displayData].sort((a, b) => b.displayPct - a.displayPct);
   const highlightTraits = prominent.length > 0
     ? prominent
@@ -333,7 +333,7 @@ export default function Big5Result({ result }: { result: unknown }) {
                   <PolarAngleAxis dataKey="name" tick={{ fontSize: 11, fill: 'var(--cc-text)' }} />
                   <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 9 }} />
                   <Tooltip
-                    formatter={(value: number, name: string) => [`${value}%`, name === 'avg' ? '한국 평균' : '내 점수']}
+                    formatter={((value: any, name: any) => [`${value}%`, name === 'avg' ? '한국 평균' : '내 점수']) as any}
                     contentStyle={{ borderRadius: 12, border: 'none', boxShadow: 'var(--cc-shadow)', fontSize: 12 }}
                   />
                   <Radar name="한국 평균" dataKey="avg" stroke="#d1d5db" fill="#d1d5db" fillOpacity={0.15} strokeWidth={1.5} strokeDasharray="4 4" />

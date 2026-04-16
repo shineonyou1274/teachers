@@ -228,7 +228,7 @@ export default function AdminPage() {
                       borderRadius: 10,
                     }}
                   >
-                    {JSON.stringify(selectedResult, null, 2)}
+                    {String(JSON.stringify(selectedResult, null, 2))}
                   </pre>
                 </div>
               )}

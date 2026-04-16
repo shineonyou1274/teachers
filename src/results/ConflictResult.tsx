@@ -163,7 +163,7 @@ export default function ConflictResult({ result }: { result: unknown }) {
               <PolarAngleAxis dataKey="name" tick={{ fontSize: 12, fill: 'var(--cc-text)' }} />
               <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10 }} />
               <Tooltip
-                formatter={(value: number, _: string, props: any) => [`${props.payload.raw}점`, props.payload.name]}
+                formatter={((_v: any, _n: any, props: any) => [`${props.payload.raw}점`, props.payload.name]) as any}
                 contentStyle={{ borderRadius: 12, border: 'none', boxShadow: 'var(--cc-shadow)' }}
               />
               <Radar
