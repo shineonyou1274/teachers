@@ -82,7 +82,7 @@ export default function BurnoutResult({ result }: { result: unknown }) {
               <PolarAngleAxis dataKey="name" tick={{ fontSize: 11, fill: 'var(--cc-text)' }} />
               <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10 }} />
               <Tooltip
-                formatter={(value: number, _: string, props: any) => [`${value}%`, props.payload.fullName]}
+                formatter={((value: any, _: any, props: any) => [`${value}%`, props.payload.fullName]) as any}
                 contentStyle={{ borderRadius: 12, border: 'none', boxShadow: 'var(--cc-shadow)' }}
               />
               <Radar

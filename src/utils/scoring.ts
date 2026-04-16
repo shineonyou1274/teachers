@@ -324,9 +324,9 @@ export function scoreConflict(answers: AnswerMap): ConflictResult {
 // ===== ProQOL 채점 =====
 
 const PROQOL_SUBSCALES = {
-  cs:  { items: [3,6,12,16,18,20,22,24,27,30], reverseItems: [] },
+  cs:  { items: [3,6,12,16,18,20,22,24,27,30], reverseItems: [] as number[] },
   bo:  { items: [1,4,8,10,15,17,19,21,26,29],  reverseItems: [1,4,15,17,29] },
-  sts: { items: [2,5,7,9,11,13,14,23,25,28],   reverseItems: [] },
+  sts: { items: [2,5,7,9,11,13,14,23,25,28],   reverseItems: [] as number[] },
 };
 
 export function scoreProQOL(answers: AnswerMap): ProQOLResult {

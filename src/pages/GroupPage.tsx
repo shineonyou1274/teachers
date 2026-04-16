@@ -28,7 +28,7 @@ export default function GroupPage() {
   const navigate = useNavigate();
   const user = getCurrentUser();
 
-  const [shared, setShared] = useState<SharedResult[]>([]);
+  const [, setShared] = useState<SharedResult[]>([]);
   const [members, setMembers] = useState<MemberData>({});
   const [loading, setLoading] = useState(true);
   const [sharing, setSharing] = useState(false);
@@ -274,7 +274,7 @@ function RadarComparison({ members, selected }: { members: MemberData; selected:
           <RadarChart data={chartData}>
             <PolarGrid stroke="var(--cc-border)" />
             <PolarAngleAxis dataKey="name" tick={{ fontSize: 11, fill: 'var(--cc-text)' }} />
-            {selected.map((name, i) => (
+            {selected.map((name) => (
               <Radar
                 key={name}
                 name={name}
@@ -332,11 +332,11 @@ function EnneagramDistribution({ members, selected }: { members: MemberData; sel
               cx="50%"
               cy="50%"
               outerRadius={90}
-              label={({ name, percent }) => `${name} ${Math.round(percent * 100)}%`}
+              label={(props: any) => `${props.name} ${Math.round((props.percent ?? 0) * 100)}%`}
               labelLine={false}
               style={{ fontSize: 10 }}
             >
-              {pieData.map((entry, i) => (
+              {pieData.map((entry) => (
                 <Cell key={entry.type} fill={COLORS[(entry.type - 1) % COLORS.length]} />
               ))}
             </Pie>
