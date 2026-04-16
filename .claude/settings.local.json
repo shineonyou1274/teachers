@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(cp -r temp-init/src .)",
+      "Bash(cp -r temp-init/public .)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(ls C:\\\\Projects\\\\teachers/.env*)",
+      "mcp__feb9e26d-7cd0-40b7-851b-3501ae400915__list_projects",
+      "mcp__feb9e26d-7cd0-40b7-851b-3501ae400915__deploy_edge_function"
+    ]
+  }
+}

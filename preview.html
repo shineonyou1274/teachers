@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교사 심리 배터리 — 솜사탕 놀이동산 디자인 프리뷰</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+/* ========== DESIGN TOKENS ========== */
+:root {
+  --cc-pink: #F9A8D4;
+  --cc-pink-deep: #EC4899;
+  --cc-pink-light: #FDF2F8;
+  --cc-sky: #93C5FD;
+  --cc-sky-deep: #3B82F6;
+  --cc-sky-light: #EFF6FF;
+  --cc-mint: #86EFAC;
+  --cc-mint-deep: #22C55E;
+  --cc-mint-light: #F0FDF4;
+  --cc-lavender: #C4B5FD;
+  --cc-lavender-deep: #8B5CF6;
+  --cc-lavender-light: #F5F3FF;
+  --cc-peach: #FDBA74;
+  --cc-peach-deep: #F97316;
+  --cc-peach-light: #FFF7ED;
+  --cc-lemon: #FDE68A;
+  --cc-lemon-deep: #EAB308;
+  --cc-lemon-light: #FEFCE8;
+  --cc-bg: #FFF8F5;
+  --cc-bg-alt: #FDF4FF;
+  --cc-card: #FFFFFF;
+  --cc-text: #1E1B3A;
+  --cc-text-sub: #6B7280;
+  --cc-border: #F3E8FF;
+  --cc-shadow: 0 4px 24px rgba(244, 114, 182, 0.12);
+  --cc-shadow-hover: 0 8px 32px rgba(244, 114, 182, 0.22);
+}
+
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cc-bg);
+  color: var(--cc-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ========== KEYFRAMES ========== */
+@keyframes float-up-down {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes float-up-down-2 {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-18px) rotate(2deg); }
+}
+@keyframes drift-right {
+  0% { transform: translateX(-120px); }
+  100% { transform: translateX(calc(100vw + 120px)); }
+}
+@keyframes drift-right-slow {
+  0% { transform: translateX(-200px); }
+  100% { transform: translateX(calc(100vw + 200px)); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.03); }
+}
+@keyframes sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+@keyframes wave-flag {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes confetti-1 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.3); }
+  50% { transform: scale(1.02); box-shadow: 0 0 0 8px rgba(236, 72, 153, 0); }
+}
+@keyframes cotton-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(5deg) scale(1.02); }
+  50% { transform: rotate(0deg) scale(1); }
+  75% { transform: rotate(-5deg) scale(1.02); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+@keyframes balloon-sway {
+  0%, 100% { transform: translateX(0) rotate(-2deg); }
+  25% { transform: translateX(4px) rotate(1deg); }
+  75% { transform: translateX(-4px) rotate(-1deg); }
+}
+@keyframes gate-lights {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ========== ANIMATED BACKGROUND ========== */
+.animated-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Clouds */
+.cloud {
+  position: absolute;
+  opacity: 0.5;
+}
+.cloud-shape {
+  width: 100px; height: 40px;
+  background: white;
+  border-radius: 40px;
+  position: relative;
+}
+.cloud-shape::before {
+  content: '';
+  position: absolute;
+  width: 50px; height: 50px;
+  background: white;
+  border-radius: 50%;
+  top: -25px; left: 15px;
+}
+.cloud-shape::after {
+  content: '';
+  position: absolute;
+  width: 36px; height: 36px;
+  background: white;
+  border-radius: 50%;
+  top: -18px; left: 48px;
+}
+.cloud-1 { top: 8%; animation: drift-right 45s linear infinite; }
+.cloud-1 .cloud-shape { width: 120px; height: 48px; }
+.cloud-2 { top: 22%; animation: drift-right-slow 65s linear infinite; animation-delay: -20s; }
+.cloud-2 .cloud-shape { width: 90px; height: 36px; opacity: 0.35; }
+.cloud-3 { top: 55%; animation: drift-right 55s linear infinite; animation-delay: -35s; }
+.cloud-3 .cloud-shape { width: 80px; height: 32px; opacity: 0.25; }
+
+/* Balloons */
+.balloon-group {
+  position: absolute;
+  top: 15%;
+  right: 8%;
+  animation: balloon-sway 6s ease-in-out infinite;
+}
+.balloon {
+  width: 28px; height: 34px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  position: absolute;
+  animation: float-up-down 4s ease-in-out infinite;
+}
+.balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  width: 1px; height: 16px;
+  background: rgba(0,0,0,0.15);
+  transform: translateX(-50%);
+}
+.balloon-1 { background: var(--cc-pink); left: 0; top: 0; animation-delay: 0s; }
+.balloon-2 { background: var(--cc-sky); left: 20px; top: -8px; animation-delay: -1.2s; }
+.balloon-3 { background: var(--cc-lemon); left: 10px; top: 8px; animation-delay: -2.5s; }
+.balloon-4 { background: var(--cc-lavender); left: 32px; top: 2px; animation-delay: -0.6s; }
+
+/* Stars / Sparkles */
+.sparkle-dot {
+  position: absolute;
+  width: 6px; height: 6px;
+  background: var(--cc-lemon);
+  border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite;
+}
+.sparkle-dot:nth-child(1) { top: 12%; left: 20%; animation-delay: 0s; }
+.sparkle-dot:nth-child(2) { top: 35%; left: 85%; animation-delay: -1s; width: 4px; height: 4px; background: var(--cc-pink); }
+.sparkle-dot:nth-child(3) { top: 60%; left: 10%; animation-delay: -2s; width: 5px; height: 5px; background: var(--cc-lavender); }
+.sparkle-dot:nth-child(4) { top: 80%; left: 75%; animation-delay: -0.5s; background: var(--cc-mint); }
+.sparkle-dot:nth-child(5) { top: 45%; left: 50%; animation-delay: -1.5s; width: 4px; height: 4px; background: var(--cc-peach); }
+
+/* ========== HEADER ========== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 248, 245, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--cc-border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cotton-candy-icon {
+  width: 36px; height: 36px;
+  animation: cotton-spin 6s ease-in-out infinite;
+}
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header-subtitle {
+  font-size: 11px;
+  color: var(--cc-text-sub);
+  margin-left: auto;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* ========== HERO / PARK GATE ========== */
+.hero {
+  text-align: center;
+  margin-bottom: 36px;
+  animation: card-enter 0.8s ease-out;
+}
+.park-gate {
+  position: relative;
+  margin: 0 auto 20px;
+  width: 320px;
+  height: 200px;
+}
+.gate-arch {
+  width: 280px; height: 140px;
+  border: 4px solid var(--cc-pink);
+  border-bottom: none;
+  border-radius: 140px 140px 0 0;
+  margin: 0 auto;
+  position: relative;
+  background: linear-gradient(180deg, var(--cc-pink-light) 0%, transparent 100%);
+}
+.gate-arch::before, .gate-arch::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 8px;
+  height: 50px;
+  background: linear-gradient(180deg, var(--cc-pink), var(--cc-peach));
+  border-radius: 4px;
+}
+.gate-arch::before { left: -4px; }
+.gate-arch::after { right: -4px; }
+.gate-text {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--cc-pink-deep);
+  letter-spacing: 4px;
+  white-space: nowrap;
+}
+/* Gate bunting flags */
+.bunting {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+}
+.flag {
+  width: 18px; height: 22px;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  animation: wave-flag 2s ease-in-out infinite;
+}
+.flag:nth-child(odd) { animation-delay: -1s; }
+.flag:nth-child(1) { background: var(--cc-pink); }
+.flag:nth-child(2) { background: var(--cc-sky); }
+.flag:nth-child(3) { background: var(--cc-lemon); }
+.flag:nth-child(4) { background: var(--cc-lavender); }
+.flag:nth-child(5) { background: var(--cc-mint); }
+.flag:nth-child(6) { background: var(--cc-peach); }
+.flag:nth-child(7) { background: var(--cc-pink); }
+.flag:nth-child(8) { background: var(--cc-sky); }
+.flag:nth-child(9) { background: var(--cc-lemon); }
+.flag:nth-child(10) { background: var(--cc-lavender); }
+.flag:nth-child(11) { background: var(--cc-mint); }
+.flag:nth-child(12) { background: var(--cc-peach); }
+
+/* Gate lights */
+.gate-lights {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 14px;
+}
+.gate-light {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  animation: gate-lights 1.5s ease-in-out infinite;
+}
+.gate-light:nth-child(1) { background: var(--cc-lemon); animation-delay: 0s; }
+.gate-light:nth-child(2) { background: var(--cc-pink); animation-delay: -0.3s; }
+.gate-light:nth-child(3) { background: var(--cc-sky); animation-delay: -0.6s; }
+.gate-light:nth-child(4) { background: var(--cc-mint); animation-delay: -0.9s; }
+.gate-light:nth-child(5) { background: var(--cc-lavender); animation-delay: -1.2s; }
+
+/* Ferris wheel */
+.ferris-wheel-wrap {
+  position: absolute;
+  right: -10px;
+  bottom: 10px;
+}
+.ferris-wheel {
+  width: 80px; height: 80px;
+  animation: spin-slow 20s linear infinite;
+  transform-origin: center;
+}
+.fw-ring {
+  fill: none;
+  stroke: var(--cc-lavender);
+  stroke-width: 2;
+}
+.fw-spoke {
+  stroke: var(--cc-lavender);
+  stroke-width: 1;
+  opacity: 0.6;
+}
+.fw-cabin {
+  r: 5;
+  fill: var(--cc-pink-light);
+  stroke: var(--cc-pink);
+  stroke-width: 1;
+}
+.ferris-stand {
+  position: absolute;
+  bottom: -4px;
+  right: 26px;
+  width: 0; height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-top: 24px solid var(--cc-lavender);
+  opacity: 0.7;
+}
+
+.hero-title {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep), var(--cc-sky-deep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.hero-desc {
+  font-size: 14px;
+  color: var(--cc-text-sub);
+  line-height: 1.6;
+}
+
+/* ========== TEST CARDS GRID ========== */
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--cc-text);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title .emoji {
+  font-size: 18px;
+  animation: bounce-gentle 3s ease-in-out infinite;
+}
+
+.test-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 540px) {
+  .test-grid { grid-template-columns: 1fr; }
+}
+
+.test-card {
+  background: var(--cc-card);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: var(--cc-shadow);
+  border: 1.5px solid var(--cc-border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  animation: card-enter 0.6s ease-out both;
+}
+.test-card:nth-child(1) { animation-delay: 0.05s; }
+.test-card:nth-child(2) { animation-delay: 0.1s; }
+.test-card:nth-child(3) { animation-delay: 0.15s; }
+.test-card:nth-child(4) { animation-delay: 0.2s; }
+.test-card:nth-child(5) { animation-delay: 0.25s; }
+.test-card:nth-child(6) { animation-delay: 0.3s; }
+.test-card:nth-child(7) { animation-delay: 0.35s; }
+
+.test-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: 20px 20px 0 0;
+}
+.test-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--cc-shadow-hover);
+  border-color: var(--cc-pink);
+}
+
+.test-card[data-color="pink"]::before { background: linear-gradient(90deg, var(--cc-pink), var(--cc-peach)); }
+.test-card[data-color="orange"]::before { background: linear-gradient(90deg, var(--cc-peach), var(--cc-lemon)); }
+.test-card[data-color="blue"]::before { background: linear-gradient(90deg, var(--cc-sky), var(--cc-lavender)); }
+.test-card[data-color="purple"]::before { background: linear-gradient(90deg, var(--cc-lavender), var(--cc-pink)); }
+.test-card[data-color="green"]::before { background: linear-gradient(90deg, var(--cc-mint), var(--cc-sky)); }
+.test-card[data-color="yellow"]::before { background: linear-gradient(90deg, var(--cc-lemon), var(--cc-peach)); }
+.test-card[data-color="rose"]::before { background: linear-gradient(90deg, var(--cc-pink), var(--cc-lavender)); }
+
+.card-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+  display: inline-block;
+  animation: float-up-down 4s ease-in-out infinite;
+}
+.test-card:nth-child(2) .card-icon { animation-delay: -0.7s; }
+.test-card:nth-child(3) .card-icon { animation-delay: -1.4s; }
+.test-card:nth-child(4) .card-icon { animation-delay: -2.1s; }
+.test-card:nth-child(5) .card-icon { animation-delay: -2.8s; }
+.test-card:nth-child(6) .card-icon { animation-delay: -3.5s; }
+.test-card:nth-child(7) .card-icon { animation-delay: -0.3s; }
+
+.card-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.card-desc {
+  font-size: 12px;
+  color: var(--cc-text-sub);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-items {
+  font-size: 11px;
+  color: var(--cc-text-sub);
+  background: var(--cc-bg);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.card-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.badge-ready {
+  background: var(--cc-mint-light);
+  color: var(--cc-mint-deep);
+}
+.badge-done {
+  background: var(--cc-pink-light);
+  color: var(--cc-pink-deep);
+}
+
+/* Start button */
+.card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 8px 18px;
+  background: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep));
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: pulse-soft 3s ease-in-out infinite;
+  font-family: 'Pretendard', sans-serif;
+}
+.card-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.35);
+}
+
+/* ========== DEMO: TEST RUNNER ========== */
+.demo-section {
+  margin-top: 48px;
+}
+.test-runner-demo {
+  background: var(--cc-card);
+  border-radius: 24px;
+  padding: 28px 24px;
+  box-shadow: var(--cc-shadow);
+  border: 1.5px solid var(--cc-border);
+  animation: card-enter 0.6s ease-out both;
+  animation-delay: 0.4s;
+}
+.runner-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.runner-type-badge {
+  background: linear-gradient(135deg, var(--cc-pink-light), var(--cc-lavender-light));
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cc-pink-deep);
+}
+.runner-page-info {
+  font-size: 12px;
+  color: var(--cc-text-sub);
+  margin-left: auto;
+}
+
+/* Progress bar */
+.progress-wrap {
+  margin-bottom: 24px;
+}
+.progress-label {
+  font-size: 12px;
+  color: var(--cc-text-sub);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-bar {
+  height: 10px;
+  background: var(--cc-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--cc-pink), var(--cc-lavender), var(--cc-sky));
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+  width: 35%;
+  transition: width 0.5s ease;
+}
+
+/* Question item */
+.question-item {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--cc-bg);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+.question-item:hover {
+  background: var(--cc-pink-light);
+}
+.question-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cc-pink-deep);
+  margin-bottom: 6px;
+}
+.question-text {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  color: var(--cc-text);
+}
+.likert-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.likert-label {
+  font-size: 10px;
+  color: var(--cc-text-sub);
+  min-width: 48px;
+  text-align: center;
+}
+.likert-label:last-child { text-align: center; }
+.likert-pills {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+}
+.likert-pill {
+  width: 40px; height: 36px;
+  border-radius: 18px;
+  border: 2px solid var(--cc-border);
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cc-text-sub);
+  font-family: 'Pretendard', sans-serif;
+}
+.likert-pill:hover {
+  border-color: var(--cc-pink);
+  background: var(--cc-pink-light);
+  color: var(--cc-pink-deep);
+  transform: scale(1.08);
+}
+.likert-pill.selected {
+  background: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep));
+  border-color: transparent;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 2px 12px rgba(236, 72, 153, 0.3);
+}
+
+/* Navigation buttons */
+.test-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--cc-border);
+}
+.nav-btn {
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Pretendard', sans-serif;
+  border: none;
+}
+.nav-btn-prev {
+  background: var(--cc-bg);
+  color: var(--cc-text-sub);
+  border: 1.5px solid var(--cc-border);
+}
+.nav-btn-prev:hover { background: var(--cc-pink-light); border-color: var(--cc-pink); }
+.nav-btn-next {
+  background: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep));
+  color: white;
+}
+.nav-btn-next:hover { transform: scale(1.04); box-shadow: 0 4px 16px rgba(236, 72, 153, 0.3); }
+.nav-btn-next:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ========== DEMO: RESULT PAGE ========== */
+.result-demo {
+  background: var(--cc-card);
+  border-radius: 24px;
+  padding: 28px 24px;
+  box-shadow: var(--cc-shadow);
+  border: 1.5px solid var(--cc-border);
+  animation: card-enter 0.6s ease-out both;
+  animation-delay: 0.5s;
+  margin-top: 24px;
+}
+.result-hero {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.result-emoji {
+  font-size: 56px;
+  display: inline-block;
+  animation: bounce-gentle 2.5s ease-in-out infinite;
+}
+.result-type-name {
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: 8px;
+}
+.result-type-sub {
+  font-size: 13px;
+  color: var(--cc-text-sub);
+  margin-top: 4px;
+}
+
+/* Fake bar chart */
+.bar-chart {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 160px;
+  padding: 0 8px;
+  margin: 24px 0;
+}
+.bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.bar-fill {
+  width: 100%;
+  border-radius: 8px 8px 4px 4px;
+  transition: height 1s ease;
+  position: relative;
+  min-height: 8px;
+}
+.bar-fill::after {
+  content: attr(data-score);
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cc-text);
+}
+.bar-label {
+  font-size: 10px;
+  color: var(--cc-text-sub);
+  text-align: center;
+  font-weight: 600;
+}
+.bar-type-num {
+  font-size: 11px;
+  font-weight: 800;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* Result detail cards */
+.result-detail {
+  background: linear-gradient(135deg, var(--cc-pink-light), var(--cc-lavender-light));
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 20px;
+}
+.detail-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cc-pink-deep);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.detail-text {
+  font-size: 13px;
+  color: var(--cc-text);
+  line-height: 1.7;
+}
+
+/* Radar chart mockup */
+.radar-demo {
+  width: 240px;
+  height: 240px;
+  margin: 20px auto;
+  position: relative;
+}
+.radar-bg {
+  fill: var(--cc-lavender-light);
+  stroke: var(--cc-border);
+  stroke-width: 1;
+}
+.radar-data {
+  fill: rgba(236, 72, 153, 0.15);
+  stroke: var(--cc-pink-deep);
+  stroke-width: 2;
+}
+.radar-dot {
+  fill: var(--cc-pink-deep);
+}
+
+/* Gauge mockup */
+.gauge-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.gauge-item {
+  text-align: center;
+}
+.gauge-label {
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+.gauge-value {
+  font-size: 11px;
+  color: var(--cc-text-sub);
+}
+.gauge-arc {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+/* ========== CONFETTI ========== */
+.confetti-container {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  width: 10px; height: 10px;
+  top: -10px;
+  animation: confetti-1 3s ease-in forwards;
+}
+.confetti-piece:nth-child(odd) { border-radius: 50%; }
+.confetti-piece:nth-child(even) { border-radius: 2px; }
+
+/* ========== FOOTER ========== */
+.footer {
+  text-align: center;
+  padding: 32px 20px 24px;
+  position: relative;
+  z-index: 1;
+}
+.footer-text {
+  font-size: 12px;
+  color: var(--cc-text-sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.footer-cotton-candy {
+  display: inline-block;
+  animation: cotton-spin 4s ease-in-out infinite;
+}
+
+/* ========== PAGE SELECTOR ========== */
+.page-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.page-tab {
+  padding: 8px 18px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1.5px solid var(--cc-border);
+  background: var(--cc-card);
+  color: var(--cc-text-sub);
+  font-family: 'Pretendard', sans-serif;
+}
+.page-tab:hover { border-color: var(--cc-pink); color: var(--cc-pink-deep); }
+.page-tab.active {
+  background: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep));
+  color: white;
+  border-color: transparent;
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01s !important;
+    transition-duration: 0.01s !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Animated Background -->
+<div class="animated-bg">
+  <div class="cloud cloud-1"><div class="cloud-shape"></div></div>
+  <div class="cloud cloud-2"><div class="cloud-shape"></div></div>
+  <div class="cloud cloud-3"><div class="cloud-shape"></div></div>
+  <div class="balloon-group">
+    <div class="balloon balloon-1"></div>
+    <div class="balloon balloon-2"></div>
+    <div class="balloon balloon-3"></div>
+    <div class="balloon balloon-4"></div>
+  </div>
+  <div class="sparkle-dot"></div>
+  <div class="sparkle-dot"></div>
+  <div class="sparkle-dot"></div>
+  <div class="sparkle-dot"></div>
+  <div class="sparkle-dot"></div>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-logo">
+    <svg class="cotton-candy-icon" viewBox="0 0 36 36">
+      <ellipse cx="18" cy="14" rx="12" ry="10" fill="#F9A8D4" opacity="0.8"/>
+      <ellipse cx="14" cy="12" rx="8" ry="7" fill="#C4B5FD" opacity="0.6"/>
+      <ellipse cx="22" cy="11" rx="7" ry="6" fill="#93C5FD" opacity="0.5"/>
+      <ellipse cx="18" cy="16" rx="9" ry="7" fill="#FDBA74" opacity="0.4"/>
+      <rect x="17" y="22" width="2.5" height="12" rx="1.2" fill="#DEB887"/>
+    </svg>
+    <span class="header-title">마음 놀이동산</span>
+  </div>
+  <span class="header-subtitle">교사 심리검사 배터리</span>
+</header>
+
+<!-- Main Content -->
+<main class="main">
+
+  <!-- Page Tabs -->
+  <div class="page-tabs">
+    <button class="page-tab active" onclick="showPage('dashboard')">🏠 홈</button>
+    <button class="page-tab" onclick="showPage('test')">📝 검사 진행</button>
+    <button class="page-tab" onclick="showPage('result')">📊 결과 보기</button>
+  </div>
+
+  <!-- ===== DASHBOARD PAGE ===== -->
+  <div id="page-dashboard" class="page-content">
+    <!-- Hero: Park Gate -->
+    <div class="hero">
+      <div class="park-gate">
+        <div class="gate-arch">
+          <div class="bunting">
+            <div class="flag"></div><div class="flag"></div><div class="flag"></div>
+            <div class="flag"></div><div class="flag"></div><div class="flag"></div>
+            <div class="flag"></div><div class="flag"></div><div class="flag"></div>
+            <div class="flag"></div><div class="flag"></div><div class="flag"></div>
+          </div>
+          <div class="gate-lights">
+            <div class="gate-light"></div>
+            <div class="gate-light"></div>
+            <div class="gate-light"></div>
+            <div class="gate-light"></div>
+            <div class="gate-light"></div>
+          </div>
+          <div class="gate-text">WELCOME</div>
+        </div>
+        <!-- Ferris Wheel -->
+        <div class="ferris-wheel-wrap">
+          <svg class="ferris-wheel" viewBox="0 0 80 80">
+            <circle class="fw-ring" cx="40" cy="40" r="30"/>
+            <line class="fw-spoke" x1="40" y1="10" x2="40" y2="70"/>
+            <line class="fw-spoke" x1="10" y1="40" x2="70" y2="40"/>
+            <line class="fw-spoke" x1="18.8" y1="18.8" x2="61.2" y2="61.2"/>
+            <line class="fw-spoke" x1="61.2" y1="18.8" x2="18.8" y2="61.2"/>
+            <circle class="fw-cabin" cx="40" cy="10"/>
+            <circle class="fw-cabin" cx="70" cy="40" fill="#EFF6FF" stroke="#93C5FD"/>
+            <circle class="fw-cabin" cx="40" cy="70" fill="#F0FDF4" stroke="#86EFAC"/>
+            <circle class="fw-cabin" cx="10" cy="40" fill="#FFF7ED" stroke="#FDBA74"/>
+            <circle class="fw-cabin" cx="61.2" cy="18.8" fill="#FEFCE8" stroke="#FDE68A"/>
+            <circle class="fw-cabin" cx="18.8" cy="18.8" fill="#F5F3FF" stroke="#C4B5FD"/>
+            <circle class="fw-cabin" cx="61.2" cy="61.2" fill="#FDF2F8" stroke="#F9A8D4"/>
+            <circle class="fw-cabin" cx="18.8" cy="61.2" fill="#EFF6FF" stroke="#93C5FD"/>
+            <circle cx="40" cy="40" r="3" fill="var(--cc-lavender-deep)" opacity="0.5"/>
+          </svg>
+          <div class="ferris-stand"></div>
+        </div>
+      </div>
+      <h1 class="hero-title">나를 알아가는 마음 여행</h1>
+      <p class="hero-desc">7가지 심리검사로 나의 마음을 탐험해보세요<br>모든 결과는 선생님의 힐링을 위해 준비되었습니다 ✨</p>
+    </div>
+
+    <!-- Test Cards -->
+    <div class="section-title">
+      <span class="emoji">🎪</span> 심리검사 놀이기구
+    </div>
+    <div class="test-grid">
+      <div class="test-card" data-color="pink">
+        <div class="card-icon">🎡</div>
+        <div class="card-name">에니어그램 성격유형</div>
+        <div class="card-desc">9가지 유형 중 나는 어디에? 교사로서의 강점과 성장 포인트를 발견해요</div>
+        <div class="card-meta">
+          <span class="card-items">180문항</span>
+          <span class="card-badge badge-ready">시작 가능</span>
+        </div>
+        <button class="card-btn">🎪 검사 시작하기</button>
+      </div>
+      <div class="test-card" data-color="orange">
+        <div class="card-icon">🎠</div>
+        <div class="card-name">교사 소진 검사</div>
+        <div class="card-desc">나의 에너지 배터리는 얼마나 남았을까? 소진 영역별 맞춤 처방을 받아보세요</div>
+        <div class="card-meta">
+          <span class="card-items">22문항</span>
+          <span class="card-badge badge-done">✓ 완료</span>
+        </div>
+        <button class="card-btn">🎪 결과 보기</button>
+      </div>
+      <div class="test-card" data-color="blue">
+        <div class="card-icon">🎨</div>
+        <div class="card-name">빅5 성격검사</div>
+        <div class="card-desc">외향성, 친화성, 성실성, 신경증, 개방성 다섯 가지 성격 차원을 탐색해요</div>
+        <div class="card-meta">
+          <span class="card-items">10문항</span>
+          <span class="card-badge badge-ready">시작 가능</span>
+        </div>
+        <button class="card-btn">🎪 검사 시작하기</button>
+      </div>
+      <div class="test-card" data-color="purple">
+        <div class="card-icon">🍭</div>
+        <div class="card-name">고감각인(HSP) 검사</div>
+        <div class="card-desc">나는 난초형? 튤립형? 민들레형? 감각 민감도를 알아보세요</div>
+        <div class="card-meta">
+          <span class="card-items">18문항</span>
+          <span class="card-badge badge-ready">시작 가능</span>
+        </div>
+        <button class="card-btn">🎪 검사 시작하기</button>
+      </div>
+      <div class="test-card" data-color="green">
+        <div class="card-icon">🎪</div>
+        <div class="card-name">성인 애착유형</div>
+        <div class="card-desc">안정형, 몰두형, 무시형, 두려움형 — 나의 관계 패턴은?</div>
+        <div class="card-meta">
+          <span class="card-items">14문항</span>
+          <span class="card-badge badge-ready">시작 가능</span>
+        </div>
+        <button class="card-btn">🎪 검사 시작하기</button>
+      </div>
+      <div class="test-card" data-color="yellow">
+        <div class="card-icon">🎯</div>
+        <div class="card-name">갈등해결 스타일</div>
+        <div class="card-desc">경쟁, 회피, 타협, 협력, 수용 — 나만의 갈등 대처법을 확인해요</div>
+        <div class="card-meta">
+          <span class="card-items">15문항</span>
+          <span class="card-badge badge-ready">시작 가능</span>
+        </div>
+        <button class="card-btn">🎪 검사 시작하기</button>
+      </div>
+      <div class="test-card" data-color="rose">
+        <div class="card-icon">🎈</div>
+        <div class="card-name">공감피로/만족 (ProQOL)</div>
+        <div class="card-desc">공감만족, 번아웃, 이차외상 — 돌봄 전문가의 마음 건강 체크</div>
+        <div class="card-meta">
+          <span class="card-items">30문항</span>
+          <span class="card-badge badge-ready">시작 가능</span>
+        </div>
+        <button class="card-btn">🎪 검사 시작하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TEST RUNNER PAGE ===== -->
+  <div id="page-test" class="page-content" style="display:none;">
+    <div class="test-runner-demo">
+      <div class="runner-header">
+        <span class="runner-type-badge">🎡 1번 유형: 개혁가</span>
+        <span class="runner-page-info">1 / 9 페이지</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>검사 진행률</span>
+          <span>35 / 180 문항</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 19%"></div>
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="question-num">문항 1</div>
+        <div class="question-text">나는 일을 할 때 정확하고 완벽하게 하려고 노력한다.</div>
+        <div class="likert-row">
+          <span class="likert-label">전혀<br>아니다</span>
+          <div class="likert-pills">
+            <button class="likert-pill" onclick="selectPill(this)">1</button>
+            <button class="likert-pill" onclick="selectPill(this)">2</button>
+            <button class="likert-pill" onclick="selectPill(this)">3</button>
+            <button class="likert-pill selected" onclick="selectPill(this)">4</button>
+            <button class="likert-pill" onclick="selectPill(this)">5</button>
+          </div>
+          <span class="likert-label">매우<br>그렇다</span>
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="question-num">문항 2</div>
+        <div class="question-text">실수를 하면 스스로를 심하게 자책하는 편이다.</div>
+        <div class="likert-row">
+          <span class="likert-label">전혀<br>아니다</span>
+          <div class="likert-pills">
+            <button class="likert-pill" onclick="selectPill(this)">1</button>
+            <button class="likert-pill" onclick="selectPill(this)">2</button>
+            <button class="likert-pill selected" onclick="selectPill(this)">3</button>
+            <button class="likert-pill" onclick="selectPill(this)">4</button>
+            <button class="likert-pill" onclick="selectPill(this)">5</button>
+          </div>
+          <span class="likert-label">매우<br>그렇다</span>
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="question-num">문항 3</div>
+        <div class="question-text">규칙과 원칙을 지키는 것이 중요하다고 생각한다.</div>
+        <div class="likert-row">
+          <span class="likert-label">전혀<br>아니다</span>
+          <div class="likert-pills">
+            <button class="likert-pill" onclick="selectPill(this)">1</button>
+            <button class="likert-pill" onclick="selectPill(this)">2</button>
+            <button class="likert-pill" onclick="selectPill(this)">3</button>
+            <button class="likert-pill" onclick="selectPill(this)">4</button>
+            <button class="likert-pill" onclick="selectPill(this)">5</button>
+          </div>
+          <span class="likert-label">매우<br>그렇다</span>
+        </div>
+      </div>
+
+      <div class="test-nav">
+        <button class="nav-btn nav-btn-prev">← 이전</button>
+        <button class="nav-btn nav-btn-next">다음 유형 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RESULT PAGE ===== -->
+  <div id="page-result" class="page-content" style="display:none;">
+    <div class="result-demo">
+      <div class="result-hero">
+        <div class="result-emoji">🦉</div>
+        <div class="result-type-name">5번 유형: 탐구자</div>
+        <div class="result-type-sub">날개: 4번 (개인주의자) · 본능 하위유형: 자기보존</div>
+      </div>
+
+      <!-- Bar Chart -->
+      <div class="section-title"><span class="emoji">🎡</span> 유형별 점수</div>
+      <div class="bar-chart">
+        <div class="bar-item">
+          <div class="bar-fill" style="height:55%;background:var(--cc-pink);" data-score="62"></div>
+          <span class="bar-type-num" style="background:var(--cc-pink);">1</span>
+        </div>
+        <div class="bar-item">
+          <div class="bar-fill" style="height:70%;background:var(--cc-peach);" data-score="74"></div>
+          <span class="bar-type-num" style="background:var(--cc-peach);">2</span>
+        </div>
+        <div class="bar-item">
+          <div class="bar-fill" style="height:45%;background:var(--cc-lemon);" data-score="52"></div>
+          <span class="bar-type-num" style="background:var(--cc-lemon-deep);color:white;">3</span>
+        </div>
+        <div class="bar-item">
+          <div class="bar-fill" style="height:78%;background:var(--cc-lavender);" data-score="81"></div>
+          <span class="bar-type-num" style="background:var(--cc-lavender-deep);">4</span>
+        </div>
+        <div class="bar-item">
+          <div class="bar-fill" style="height:92%;background:linear-gradient(180deg,var(--cc-sky),var(--cc-lavender));" data-score="95"></div>
+          <span class="bar-type-num" style="background:var(--cc-sky-deep);">5</span>
+        </div>
+        <div class="bar-item">
+          <div class="bar-fill" style="height:60%;background:var(--cc-mint);" data-score="66"></div>
+          <span class="bar-type-num" style="background:var(--cc-mint-deep);">6</span>
+        </div>
+        <div class="bar-item">
+          <div class="bar-fill" style="height:50%;background:var(--cc-peach);" data-score="55"></div>
+          <span class="bar-type-num" style="background:var(--cc-peach-deep);">7</span>
+        </div>
+        <div class="bar-item">
+          <div class="bar-fill" style="height:40%;background:var(--cc-pink);" data-score="45"></div>
+          <span class="bar-type-num" style="background:var(--cc-pink-deep);">8</span>
+        </div>
+        <div class="bar-item">
+          <div class="bar-fill" style="height:65%;background:var(--cc-lavender);" data-score="70"></div>
+          <span class="bar-type-num" style="background:var(--cc-lavender-deep);">9</span>
+        </div>
+      </div>
+
+      <!-- Detail cards -->
+      <div class="result-detail">
+        <div class="detail-title">🎠 교사로서의 강점</div>
+        <div class="detail-text">깊이 있는 전문 지식을 바탕으로 학생들에게 통찰력 있는 수업을 제공합니다. 복잡한 주제를 명확하게 분석하고 설명하는 능력이 뛰어나며, 독립적 사고를 장려하는 교실 환경을 만듭니다.</div>
+      </div>
+      <div class="result-detail" style="background: linear-gradient(135deg, var(--cc-sky-light), var(--cc-mint-light)); margin-top: 12px;">
+        <div class="detail-title" style="color: var(--cc-sky-deep);">🎈 성장 포인트</div>
+        <div class="detail-text">학생들과의 감정적 교류에 더 시간을 투자해보세요. 지식 전달뿐 아니라 따뜻한 격려와 공감의 말 한마디가 학생들에게 큰 힘이 됩니다. 동료 교사들과의 협업에서도 자신의 아이디어를 더 적극적으로 나눠보세요.</div>
+      </div>
+
+      <!-- Radar chart mockup for burnout -->
+      <div style="margin-top: 32px;">
+        <div class="section-title"><span class="emoji">🎠</span> 소진 척도 레이더 (예시)</div>
+        <svg class="radar-demo" viewBox="0 0 240 240" style="display:block;margin:0 auto;">
+          <!-- Background pentagons -->
+          <polygon class="radar-bg" points="120,30 199,85 169,175 71,175 41,85" fill="var(--cc-lavender-light)" opacity="0.3"/>
+          <polygon class="radar-bg" points="120,52 181,93 157,163 83,163 59,93" fill="var(--cc-lavender-light)" opacity="0.2"/>
+          <polygon class="radar-bg" points="120,75 163,101 145,150 95,150 77,101" fill="var(--cc-lavender-light)" opacity="0.15"/>
+          <!-- Axis lines -->
+          <line x1="120" y1="30" x2="120" y2="120" stroke="var(--cc-border)" stroke-width="1"/>
+          <line x1="199" y1="85" x2="120" y2="120" stroke="var(--cc-border)" stroke-width="1"/>
+          <line x1="169" y1="175" x2="120" y2="120" stroke="var(--cc-border)" stroke-width="1"/>
+          <line x1="71" y1="175" x2="120" y2="120" stroke="var(--cc-border)" stroke-width="1"/>
+          <line x1="41" y1="85" x2="120" y2="120" stroke="var(--cc-border)" stroke-width="1"/>
+          <!-- Data polygon -->
+          <polygon class="radar-data" points="120,50 175,95 155,160 85,145 55,90"/>
+          <!-- Data dots -->
+          <circle class="radar-dot" cx="120" cy="50" r="4"/>
+          <circle class="radar-dot" cx="175" cy="95" r="4"/>
+          <circle class="radar-dot" cx="155" cy="160" r="4"/>
+          <circle class="radar-dot" cx="85" cy="145" r="4"/>
+          <circle class="radar-dot" cx="55" cy="90" r="4"/>
+          <!-- Labels -->
+          <text x="120" y="22" text-anchor="middle" font-size="10" font-weight="600" fill="var(--cc-text)">교권위기감</text>
+          <text x="208" y="88" text-anchor="start" font-size="10" font-weight="600" fill="var(--cc-text)">무능감</text>
+          <text x="175" y="185" text-anchor="start" font-size="10" font-weight="600" fill="var(--cc-text)">좌절감</text>
+          <text x="60" y="185" text-anchor="end" font-size="10" font-weight="600" fill="var(--cc-text)">행정부담</text>
+          <text x="32" y="88" text-anchor="end" font-size="10" font-weight="600" fill="var(--cc-text)">교직회의</text>
+        </svg>
+      </div>
+
+      <!-- Gauge mockup -->
+      <div style="margin-top: 32px;">
+        <div class="section-title"><span class="emoji">🍭</span> ProQOL 게이지 (예시)</div>
+        <div class="gauge-row">
+          <div class="gauge-item">
+            <svg width="100" height="60" viewBox="0 0 100 60">
+              <path d="M10,55 A45,45 0 0,1 90,55" class="gauge-arc" stroke="var(--cc-border)" stroke-width="10"/>
+              <path d="M10,55 A45,45 0 0,1 75,20" class="gauge-arc" stroke="var(--cc-mint)" stroke-width="10"/>
+            </svg>
+            <div class="gauge-label" style="color:var(--cc-mint-deep);">공감만족</div>
+            <div class="gauge-value">38점 (높음)</div>
+          </div>
+          <div class="gauge-item">
+            <svg width="100" height="60" viewBox="0 0 100 60">
+              <path d="M10,55 A45,45 0 0,1 90,55" class="gauge-arc" stroke="var(--cc-border)" stroke-width="10"/>
+              <path d="M10,55 A45,45 0 0,1 50,12" class="gauge-arc" stroke="var(--cc-peach)" stroke-width="10"/>
+            </svg>
+            <div class="gauge-label" style="color:var(--cc-peach-deep);">번아웃</div>
+            <div class="gauge-value">28점 (보통)</div>
+          </div>
+          <div class="gauge-item">
+            <svg width="100" height="60" viewBox="0 0 100 60">
+              <path d="M10,55 A45,45 0 0,1 90,55" class="gauge-arc" stroke="var(--cc-border)" stroke-width="10"/>
+              <path d="M10,55 A45,45 0 0,1 35,25" class="gauge-arc" stroke="var(--cc-lavender)" stroke-width="10"/>
+            </svg>
+            <div class="gauge-label" style="color:var(--cc-lavender-deep);">이차외상</div>
+            <div class="gauge-value">19점 (낮음)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-text">
+    <span class="footer-cotton-candy">🍭</span>
+    마음 놀이동산 · 거창고등학교 교사 스터디
+    <span class="footer-cotton-candy">🎠</span>
+  </div>
+</footer>
+
+<!-- Confetti (shown briefly) -->
+<div class="confetti-container" id="confetti"></div>
+
+<script>
+// Page switching
+function showPage(page) {
+  document.querySelectorAll('.page-content').forEach(el => el.style.display = 'none');
+  document.getElementById('page-' + page).style.display = 'block';
+  document.querySelectorAll('.page-tab').forEach(el => el.classList.remove('active'));
+  event.target.classList.add('active');
+
+  if (page === 'result') {
+    launchConfetti();
+  }
+}
+
+// Likert pill selection
+function selectPill(el) {
+  el.parentElement.querySelectorAll('.likert-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// Confetti effect
+function launchConfetti() {
+  const container = document.getElementById('confetti');
+  container.innerHTML = '';
+  const colors = ['#F9A8D4', '#93C5FD', '#C4B5FD', '#86EFAC', '#FDBA74', '#FDE68A', '#EC4899'];
+  for (let i = 0; i < 40; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.width = (Math.random() * 8 + 6) + 'px';
+    piece.style.height = (Math.random() * 8 + 6) + 'px';
+    piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    piece.style.animationDelay = (Math.random() * 0.5) + 's';
+    container.appendChild(piece);
+  }
+  setTimeout(() => container.innerHTML = '', 4000);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+:root {
+  /* Primary palette */
+  --cc-pink: #F9A8D4;
+  --cc-pink-deep: #EC4899;
+  --cc-pink-light: #FDF2F8;
+
+  --cc-sky: #93C5FD;
+  --cc-sky-deep: #3B82F6;
+  --cc-sky-light: #EFF6FF;
+
+  --cc-mint: #86EFAC;
+  --cc-mint-deep: #22C55E;
+  --cc-mint-light: #F0FDF4;
+
+  --cc-lavender: #C4B5FD;
+  --cc-lavender-deep: #8B5CF6;
+  --cc-lavender-light: #F5F3FF;
+
+  --cc-peach: #FDBA74;
+  --cc-peach-deep: #F97316;
+  --cc-peach-light: #FFF7ED;
+
+  --cc-lemon: #FDE68A;
+  --cc-lemon-deep: #EAB308;
+  --cc-lemon-light: #FEFCE8;
+
+  /* Neutrals */
+  --cc-bg: #FFF8F5;
+  --cc-bg-alt: #FDF4FF;
+  --cc-card: #FFFFFF;
+  --cc-text: #1E1B3A;
+  --cc-text-sub: #6B7280;
+  --cc-border: #F3E8FF;
+
+  /* Gradients */
+  --cc-gradient-hero: linear-gradient(135deg, #FDF2F8, #EFF6FF, #F5F3FF);
+  --cc-gradient-card: linear-gradient(180deg, #FFFFFF, #FDF4FF);
+  --cc-gradient-btn: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep));
+
+  /* Shadows */
+  --cc-shadow: 0 4px 24px rgba(244, 114, 182, 0.12);
+  --cc-shadow-hover: 0 8px 32px rgba(244, 114, 182, 0.22);
+  --cc-shadow-soft: 0 2px 12px rgba(196, 181, 253, 0.15);
+
+  /* Radius */
+  --cc-radius: 20px;
+  --cc-radius-sm: 12px;
+  --cc-radius-pill: 9999px;
+
+  /* Per-test accent colors */
+  --test-enneagram: #EC4899;
+  --test-burnout: #F97316;
+  --test-big5: #3B82F6;
+  --test-hsp: #8B5CF6;
+  --test-ecr: #22C55E;
+  --test-conflict: #EAB308;
+  --test-proqol: #EC4899;
+}

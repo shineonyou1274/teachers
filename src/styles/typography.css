@@ -1,0 +1,26 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-wide {
+  background: linear-gradient(135deg, var(--cc-pink-deep), var(--cc-lavender-deep), var(--cc-sky-deep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
