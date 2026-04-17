@@ -73,7 +73,7 @@ export default function AuthModal({ mode, onClose, onSuccess }: AuthModalProps) 
               backgroundClip: 'text',
             }}
           >
-            {mode === 'signup' ? '놀이동산 입장권' : '관리자 입장'}
+            {mode === 'signup' ? '마음 쉼터 가입' : '관리자 입장'}
           </div>
           <div style={{ fontSize: 13, color: 'var(--cc-text-sub)', marginTop: 4 }}>
             {mode === 'signup'

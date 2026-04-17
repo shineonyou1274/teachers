@@ -191,7 +191,7 @@ export default function Dashboard() {
         }}
       >
         <span style={{ fontSize: 18, animation: 'bounce-gentle 3s ease-in-out infinite' }}>🎪</span>
-        심리검사 놀이기구
+        심리검사 목록
       </div>
 
       {/* Bento grid - 2 columns */}

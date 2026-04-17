@@ -38,7 +38,7 @@ export default function AppShell() {
           }}
         >
           <span style={{ display: 'inline-block', animation: 'cotton-spin 4s ease-in-out infinite' }}>🍭</span>
-          마음 놀이동산 · 교사 힐링 심리검사
+          마음 쉼터 · 교사 힐링 심리검사
           <span style={{ display: 'inline-block', animation: 'cotton-spin 4s ease-in-out infinite' }}>🎠</span>
         </div>
       </footer>

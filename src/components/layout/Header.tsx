@@ -55,7 +55,7 @@ export default function Header() {
             backgroundClip: 'text',
           }}
         >
-          마음 놀이동산
+          마음 쉼터
         </span>
       </div>
       <span
