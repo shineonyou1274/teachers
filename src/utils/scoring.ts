@@ -128,7 +128,7 @@ const BURNOUT_SUBSCALES: Record<string, { items: number[]; reverseItems: number[
   무능감:     { items: [6,7,8,9],         reverseItems: [6,7,8], maxScore: 20 },
   좌절감:     { items: [10,11,12,13],     reverseItems: [],     maxScore: 20 },
   '행정업무 부담감': { items: [14,15,16,17], reverseItems: [], maxScore: 20 },
-  교직회의감: { items: [18,19,20,21,22],  reverseItems: [],     maxScore: 25 },
+  '교직 회의감': { items: [18,19,20,21,22],  reverseItems: [],     maxScore: 25 },
 };
 
 export function scoreBurnout(answers: AnswerMap): BurnoutResult {
