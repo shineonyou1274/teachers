@@ -35,7 +35,7 @@ function getQuestions(testId: string): { pages: QuestionItem[][]; scaleMax: numb
     const pages: QuestionItem[][] = types.map((t: any) =>
       t.items.map((item: any, idx: number) => ({
         key: `e${t.id}_${idx}`,
-        text: item.text,
+        text: typeof item === 'string' ? item : item.text,
         pageLabel: `유형 ${t.id} / 9`,
       }))
     );
@@ -116,8 +116,9 @@ export default function TestRunner() {
   const handleNext = () => {
     if (currentPage < pages.length - 1) {
       setCurrentPage(p => p + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      topRef.current?.scrollIntoView({ behavior: 'smooth' });
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     } else {
       // Complete
       const scoreFn = SCORE_FNS[testId || ''];
@@ -133,8 +134,9 @@ export default function TestRunner() {
   const handlePrev = () => {
     if (currentPage > 0) {
       setCurrentPage(p => p - 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      topRef.current?.scrollIntoView({ behavior: 'smooth' });
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     }
   };
 
