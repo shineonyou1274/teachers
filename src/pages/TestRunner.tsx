@@ -36,7 +36,7 @@ function getQuestions(testId: string): { pages: QuestionItem[][]; scaleMax: numb
       t.items.map((item: any, idx: number) => ({
         key: `e${t.id}_${idx}`,
         text: item.text,
-        pageLabel: `${t.id}번 유형: ${t.name} ${t.emoji}`,
+        pageLabel: `유형 ${t.id} / 9`,
       }))
     );
     return { pages, scaleMax: 5, scaleLabels: ['전혀 아니다', '매우 그렇다'] };
@@ -116,6 +116,7 @@ export default function TestRunner() {
   const handleNext = () => {
     if (currentPage < pages.length - 1) {
       setCurrentPage(p => p + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       topRef.current?.scrollIntoView({ behavior: 'smooth' });
     } else {
       // Complete
@@ -132,6 +133,7 @@ export default function TestRunner() {
   const handlePrev = () => {
     if (currentPage > 0) {
       setCurrentPage(p => p - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       topRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   };
