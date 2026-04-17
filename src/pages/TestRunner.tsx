@@ -369,7 +369,7 @@ export default function TestRunner() {
           }}
         >
           {currentPage < pages.length - 1
-            ? testId === 'enneagram' ? '다음 유형 →' : '다음 →'
+            ? '다음 →'
             : '🎪 검사 완료!'}
         </button>
       </div>
